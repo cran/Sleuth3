@@ -9,7 +9,7 @@
 }
 \usage{case1002}
 \format{
-  A data frame with 20 observations on the following 4 variables.
+  A data frame with 20 observations on the following 3 variables.
   \describe{
     \item{Mass}{mass (in grams)}
     \item{Type}{a factor with 3 levels indicating the type of flying

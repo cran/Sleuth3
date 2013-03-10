@@ -60,12 +60,12 @@ pairwise.t.test(Lifetime,Diet, pool.SD=TRUE, p.adj="none") # All t-tests
 
 ## p-VALUES AND CONFIDENCE INTERVALS FOR SPECIFIED COMPARISONS OF MEANS
 if(require(multcomp)){
-  diet    <- factor(Diet,labels=c("lopro", "NN85", "NR40", "NR50", "NP", "RR50")) 
+  diet    <- factor(Diet,labels=c("NN85", "NR40", "NR50", "NP", "RR50", "lopro")) 
   myAov2  <- aov(Lifetime ~ diet - 1) 
   myComparisons <- glht(myAov2,
           linfct=c("dietNR50 - dietNN85 = 0", 
-          "dietNR40  - dietNR50 = 0",
           "dietRR50  - dietNR50 = 0",
+          "dietNR40  - dietNR50 = 0",
           "dietlopro - dietNR50 = 0",
           "dietNN85  - dietNP   = 0")   ) 
   summary(myComparisons,test=adjusted("none")) # No multiple comparison adjust.
