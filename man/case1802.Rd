@@ -29,7 +29,8 @@
 \examples{
 str(case1802)
 attach(case1802) 
-        
+
+library(MASS)        
 ## INFERENCE (4 methods)
 myTable <- cbind(Cold,NoCold)
 row.names(myTable) <- c("Placebo","Vitamin C")
