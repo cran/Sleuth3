@@ -55,7 +55,7 @@ myLm2 <- update(myLm1, ~ . ,subset=(State != "Alaska"))
 plot(myLm2,which=1)
 plot(myLm2,which=4)
 if(require(car)){   # Use the car library   
-  crPlots(myLm2) # Partial residual plot                                                                  
+  crPlots(myLm2) # Partial residual plot
 }
 ## RANK STATES ON SAT SCORES, ADJUSTED FOR Takers AND Rank
 myLm3        <- lm(SAT ~ logTakers + Rank) 
@@ -90,7 +90,8 @@ if(require(leaps)){   # Use the leaps library
   newState[myOrder2] 
   dotchart(myResiduals2[myOrder2], labels=State[myOrder2],
     xlab="Adjusted SAT Scores (Deviation From Average Adjusted Value)",
-    main="States Ranked by SAT Scores Adjusted for Demographics of Takers and Education Expenditure",  
+    main=paste("States Ranked by SAT Scores Adjusted for Demographics",
+               "of Takers and Education Expenditure", sep = " "),
     bg="green", cex = .8)
   abline(v=0, col="gray")
 }

@@ -22,7 +22,7 @@
 }
 \references{
   U.S. National Oceanographic and Atmospheric Administration
-  \url{(http://www.cpc.ncep.noaa.gov/data/indices/)} 
+  (\url{http://www.cpc.ncep.noaa.gov/data/indices/}).
 }
 \seealso{
   \code{\link{case1502}}

@@ -33,8 +33,6 @@
   Doolittle, A.E. (1989).  Gender Differences in Performance on
   Mathematics Achievement Items, \emph{Applied Measurement in Education}
   \bold{2}(2): 161--177.
-
-  \url{http://www.act.org/research/reports/pdf/ACT_RR87-16.pdf}
   
 }
 \examples{

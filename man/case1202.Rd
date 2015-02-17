@@ -73,7 +73,7 @@ myLm3         <- lm(logSal ~ Age + Educ + ageSquared + Senior:Educ +
 summary(myLm3)
 
 myLm4 <- update(myLm3, ~ . + Sex)  
-summary(myLm4)                                                                   
+summary(myLm4)
 myLm5 <- update(myLm4, ~ . + Sex:Age + Sex:Educ + Sex:Senior + 
   Sex:Exper + Sex:ageSquared)
 anova(myLm4, myLm5) 
@@ -102,7 +102,7 @@ curveF <- beta[1] + beta[2]*dummyExper + beta[3]*dummyExper^2 +
 curveM <- curveF + beta[5]
 dummyYears <- dummyExper/12
 lines(exp(curveF) ~ dummyYears, lty=1, lwd=2,col="red")
-lines(exp(curveM) ~ dummyYears, lty = 2, lwd=2, col="blue")                                                                     
+lines(exp(curveM) ~ dummyYears, lty = 2, lwd=2, col="blue")
 legend(28,8150, c("Male","Female"),pch=c(24,21), pt.cex=1.8, pt.lwd=2, 
   pt.bg=c("gray","gray"), col=c("blue","red"), lty=c(2,1), lwd=2) 
 

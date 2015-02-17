@@ -30,8 +30,7 @@
     Course in Methods of Data Analysis (3rd ed)}, Cengage Learning.
 }
 \references{
-  Kentucky Derby: Kentucky Derby Racing Results, \cr
-  \url{http://www.kentuckyderby.info/kentuckyderby-results.php} (July 21, 2011).
+  Kentucky Derby: Kentucky Derby Racing Results.
 }
 \examples{
 str(ex0920)

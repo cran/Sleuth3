@@ -21,7 +21,7 @@ Ramsey, F.L. and Schafer, D.W. (2013). \emph{The Statistical Sleuth: A
 \references{
   Central Intelligence Agency, Country Comparison: GDP per capita
   (PPP), \bold{The World Factbook},
-  \url{https://www.cia.gov/library/publications/theworld-factbook/rankorder/2004rank.html}
+  \verb{https://www.cia.gov/library/publications/theworld-factbook/rankorder/2004rank.html}
   (retrieved June 30,2011).
   }
 \examples{

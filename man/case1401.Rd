@@ -55,11 +55,14 @@ orderedSign <- factor(Sign,levels=c("listen","drink","shoe","key","more",
 myAov2 <- aov(logMinutes ~ orderedSign + Chimp - 1)  # Refit
 opar <- par(no.readonly=TRUE)  # Store current graphics parameters settings
 par(mar=c(4.1,7.1,4.1,2.1)) # Adjust margins to allow room for y-axis labels
+\donttest{
+## takes too long to run
 if(require(multcomp)){   # Use the multcomp library   
   myMultComp    <- glht(myAov2, linfct = mcp(orderedSign = "Tukey"))              
   plot(myMultComp)  # Plot Tukey-adjusted confidence intervals.
   summary(myMultComp)   # Show Tukey-adjusted p-values  pairwise comparisons  
   confint(myMultComp)   # Show Tukey-adjusted 95% confidence intervals  
+}
 }
 par(opar) # Restore original graphics parameters settings
 

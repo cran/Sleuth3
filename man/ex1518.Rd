@@ -24,7 +24,7 @@
 }
 \references{
   Center for Disease Control,\cr
-  \url{http://www.cdc.gov/vaccines/pubs/pinkbook/downloads/appendices/G/cases& deaths.PDF} 
+  \url{http://www.cdc.gov/vaccines/pubs/pinkbook/downloads/appendices/G/cases-deaths.pdf} 
   retrieved on July 23, 2009
 }
 \examples{
