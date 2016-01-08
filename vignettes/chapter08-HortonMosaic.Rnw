@@ -1,0 +1,407 @@
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{Chapter 08, Horton et al. using mosaic}
+%\VignettePackage{Sleuth3}
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in,bottom=.5in,includehead,includefoot]{geometry}
+\usepackage{hyperref}
+\usepackage{language}
+\usepackage{alltt}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+%% Now begin customising things. See the fancyhdr docs for more info.
+
+\chead{}
+\lhead[\sf \thepage]{\sf \leftmark}
+\rhead[\sf \leftmark]{\sf \thepage}
+\lfoot{}
+\cfoot{Statistical Sleuth in R: Chapter 8}
+\rfoot{}
+
+\newcounter{myenumi}
+\newcommand{\saveenumi}{\setcounter{myenumi}{\value{enumi}}}
+\newcommand{\reuseenumi}{\setcounter{enumi}{\value{myenumi}}}
+
+\pagestyle{fancy}
+
+\def\R{{\sf R}}
+\def\Rstudio{{\sf RStudio}}
+\def\RStudio{{\sf RStudio}}
+\def\term#1{\textbf{#1}}
+\def\tab#1{{\sf #1}}
+
+
+\usepackage{relsize}
+
+\newlength{\tempfmlength}
+\newsavebox{\fmbox}
+\newenvironment{fmpage}[1]
+     {
+   \medskip
+   \setlength{\tempfmlength}{#1}
+   \begin{lrbox}{\fmbox}
+     \begin{minipage}{#1}
+     \vspace*{.02\tempfmlength}
+		 \hfill
+	   \begin{minipage}{.95 \tempfmlength}}
+		 {\end{minipage}\hfill
+		 \vspace*{.015\tempfmlength}
+		 \end{minipage}\end{lrbox}\fbox{\usebox{\fmbox}}
+	 \medskip
+	 }
+
+
+\newenvironment{boxedText}[1][.98\textwidth]%
+{%
+\begin{center}
+\begin{fmpage}{#1}
+}%
+{%
+\end{fmpage}
+\end{center}
+}
+
+\newenvironment{boxedTable}[2][tbp]%
+{%
+\begin{table}[#1]
+  \refstepcounter{table}
+  \begin{center}
+\begin{fmpage}{.98\textwidth}
+  \begin{center}
+	\sf \large Box~\expandafter\thetable. #2
+\end{center}
+\medskip
+}%
+{%
+\end{fmpage}
+\end{center}
+\end{table}		% need to do something about exercises that follow boxedTable
+}
+
+
+\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+
+\title{The Statistical Sleuth in R: \\
+Chapter 8}
+
+\author{
+Kate Aloisio \and Ruobing Zhang \and Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu}
+} 
+
+\date{\today}
+
+\begin{document}
+
+
+\maketitle
+\tableofcontents
+
+%\parindent=0pt
+
+
+<<setup, include=FALSE, cache=FALSE>>=
+require(knitr)
+opts_chunk$set(
+  dev="pdf",
+  fig.path="figures/",
+        fig.height=3,
+        fig.width=4,
+        out.width=".47\\textwidth",
+        fig.keep="high",
+        fig.show="hold",
+        fig.align="center",
+        prompt=TRUE,  # show the prompts; but perhaps we should not do this
+        comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
+  )
+@
+
+
+<<pvalues, echo=FALSE, message=FALSE>>=
+print.pval = function(pval) {
+  threshold = 0.0001
+    return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
+                ifelse(pval > 0.1, paste("p=",round(pval, 2), sep=""),
+                       paste("p=", round(pval, 3), sep=""))))
+}
+@
+
+<<setup2,echo=FALSE,message=FALSE>>=
+require(Sleuth3)
+require(mosaic)
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+set.seed(123)
+# this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
+knit_hooks$set(inline = function(x) {
+if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
+x = as.character(x)
+h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
+h = gsub("([_#$%&])", "\\\\\\1", h)
+h = gsub('(["\'])', '\\1{}', h)
+gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
+})
+showOriginal=FALSE
+showNew=TRUE
+@ 
+
+\section{Introduction}
+
+This document is intended to help describe how to undertake analyses introduced as examples in the Third Edition of the \emph{Statistical Sleuth} (2013) by Fred Ramsey and Dan Schafer.
+More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.  This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth3}.
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. A short summary of the R needed to teach introductory statistics can be found in the mosaic package vignette (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/MinimalR.pdf}). 
+
+To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+<<install_mosaic,eval=FALSE>>=
+install.packages('mosaic')               # note the quotation marks
+@
+Once this is installed, it can be loaded by running the command:
+<<load_mosaic,eval=FALSE>>=
+require(mosaic)
+@
+This needs to be done once per session.
+
+In addition the data files for the \emph{Sleuth} case studies can be accessed by installing the \pkg{Sleuth3} package.
+<<install_Sleuth3,eval=FALSE>>=
+install.packages('Sleuth3')               # note the quotation marks
+@
+<<load_Sleuth3,eval=FALSE>>=
+require(Sleuth3)
+@
+
+
+We also set some options to improve legibility of graphs and output.
+<<eval=TRUE>>=
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+options(digits=4)
+@
+
+The specific goal of this document is to demonstrate how to calculate the quantities described in Chapter 8: A Closer Look at Assumptions for Simple Linear Regression using R.
+
+\section{Island Area and Number of Species}
+
+What is the relationship between the area of islands and the number of animal and plant species living on them?  This is the question addressed in case study 8.1 in the \emph{Sleuth}.
+
+\subsection{Summary statistics and graphical display}
+
+We begin by reading the data and summarizing the variables.
+
+<<>>=
+case0801
+summary(case0801)
+@
+
+A total of \Sexpr{nrow(case0801)} islands are included in this data as displayed in Display 8.1 (page 208).
+
+We can then observe the relationship between the area and the number of species for these islands with a scatterplot, akin to the top figure in Display 8.2 (page 209).
+
+<<fig.height=4, fig.width=6>>=
+xyplot(Species ~ Area, data=case0801)
+@
+
+It appears that the relationship with the observed values may not be linear, therefore we need to check the normality assumption to determine if transformations are nessessary.
+
+<<fig.height=4, fig.width=6>>=
+densityplot(~ Area, data=case0801)
+densityplot(~ Species, data=case0801)
+@
+
+Since neither of these appear to be approximately normal, we log transformed both the the variables. 
+
+<<>>=
+case0801$logarea = with(case0801, log(Area))
+case0801$logspecies = with(case0801, log(Species))
+@
+
+Then we can create a log-log-scatterplot for these two variables, akin to the bottom figure in Display 8.2 (page 209).
+
+<<fig.height=4, fig.width=6>>=
+xyplot(logspecies ~ logarea, type = c("p", "r"), data=case0801)
+@
+
+\subsection{Simple Linear Model}
+
+We first fit the model for $\mu\{\mathrm{log(Species)}|\mathrm{log(Area)}\}$ = $\beta_{0}$ + $\beta_{1}$ * log(Area).
+
+<<>>=
+lm1 = lm(logspecies ~ logarea, data=case0801)
+summary(lm1)
+@
+
+Thus our estimated equation becomes, $\hat{\mu}\{\mathrm{log(Species)}|\mathrm{log(Area)}\}$ = \Sexpr{round(coef(lm1)["(Intercept)"], 2)} + \Sexpr{round(coef(lm1)["logarea"], 2)}* log(Area).
+
+Next we calculate the 95\% confidence interval for the estimates, note that the {\tt logarea} 95\% confidence interval is interpreted in the ``Statistical Conclusion" on page 208:
+
+<<>>=
+confint(lm1)
+@
+
+To interpret this log-log model the \emph{Sleuth} notes that if $\hat{\mu}\{\mathrm{log(Y)}|\mathrm{log(X)}\}$ = $\beta_{0}$ + $\beta_{1}$ * log(X) then Median$\{{\mathrm{Y}|\mathrm{X}}\}$ = $\mathrm{exp}(\beta_{0})X^{\beta_{1}}$ (page 216).   For this example the researchers are interested in a doubling effect ($2^{\beta_1}$). Therefore to obtain the 95\% confidence interval for the multiplicative factor in the median we used the following code:
+
+<<>>=
+2^confint(lm1)
+@
+
+
+Thus for this model the estimated median number of species is \Sexpr{round(2^coef(lm1)["logarea"], 2)} ($2^{\Sexpr{round(coef(lm1)["logarea"], 3)}}$) with a 95\% confidence interval between (\Sexpr{round(2^confint(lm1)[2,1], 2)}, \Sexpr{round(2^confint(lm1)[2,2], 2)}). These match the numbers found on page 217.
+
+\subsection{Assessment of Assumptions}
+
+First we will have to assume independence from the information given.  As seen in the above density plots, the observations for each variable were not normally distributed, once we preformed a log transformation the distribution of the values became more approximately normal.
+
+Next we can check for linearity.
+
+<<fig.height=4, fig.width=6>>=
+plot(lm1, which=2)
+@
+
+
+Lastly we can assess the assumption of equal variance.
+
+<<fig.height=4, fig.width=6>>=
+plot(lm1, which=1)
+@
+
+
+\section{Breakdown Times for Insulating Fluid Under Different Voltages}
+
+How does the distribution of breakdown time depend on voltage?  This is the question addressed in case study 8.2 in the \emph{Sleuth}.
+
+\subsection{Summary statistics and graphical display}
+
+We begin by reading the data and summarizing the variables.
+
+<<>>=
+summary(case0802)
+@
+
+A total of \Sexpr{nrow(case0802)} samples of insulating fluids are included in this data. Each sample was placed in one of \Sexpr{with(case0802, length(unique(Group)))} groups representing different degrees of voltage.  Each group varried in sample size as shown in Display 8.2 (page 209).
+
+Before we can fit the simple linear regression model we need to assess the assumption of normality through density plots.
+
+<<fig.height=4, fig.width=6>>=
+histogram(~ Time, type='density', density=TRUE, nint=10, data=case0802)
+@
+
+It appears that the distribution of {\tt Time} is highly skewed with a long right tail. Therefore one possible transformation would be to take the log of the {\tt Time} observations.
+
+<<fig.height=4, fig.width=6>>=
+case0802$logtime=with(case0802, log(Time))
+histogram(~ logtime, type='density', density=TRUE, nint=10, data=case0802)
+@
+
+Now the observations are approximately normally distributed.
+
+<<fig.height=6, fig.width=6>>=
+histogram(~ Voltage, type='density', density=TRUE, nint=10, data=case0802)
+@
+The distribution of {\tt Voltage} seems to be approximately normal. 
+
+Next we can observe the relationship between log({\tt Time}) and {\tt Voltage}, the following figure is akin to Display 8.4 (page 211).
+
+<<fig.height=6, fig.width=6>>=
+xyplot(logtime ~ Voltage, groups=Group, auto.key=TRUE, data=case0802)
+@
+
+\subsection{Simple linear regression models}
+
+The model that the researchers want to analyse is $\mu\{\mathrm{log(Time)}|\mathrm{Voltage}\}$ = $\beta_{0}$ + $\beta_{1}$ * Voltage
+
+<<>>=
+lm1 = lm(logtime ~ Voltage, data=case0802)
+summary(lm1)
+@
+
+Therefore the estimated model is $\hat{\mu}\{\mathrm{log(Time)}|\mathrm{Voltage}\}$ = \Sexpr{round(coef(lm1)["(Intercept)"], 2)} + (\Sexpr{round(coef(lm1)["Voltage"], 2)})* log(Area). The $R^2$ for the model is \Sexpr{round(100*summary(lm1)$r.squared, 2)}\%, as discussed on page 222.
+
+For the interpretation of the model we first exponentiate the estimated coefficients since the response variable is logged as shown on page 216.
+
+<<>>=
+exp(coef(lm1))
+@
+
+Thus a 1 kV increase in volatge is associated with a multiplicative change in median breakdown time of \Sexpr{round(exp(coef(lm1))["Voltage"], 2)}.
+
+Next we can calculate the 95\% confidence interval for $\beta_0$ and $\beta_1$.
+
+<<>>=
+confint(lm1)
+@
+
+For the interpetation of the model we next need to exponentiat the above 95\% confidence interval. 
+
+<<>>=
+exp(confint(lm1))
+@
+
+Thus the 95\% confidence interval for the multiplicative change in median breakdown time is (\Sexpr{round(exp(confint(lm1))[2,1], 2)}, \Sexpr{round(exp(confint(lm1))[2,2], 2)}) as interpreted on page 216.  
+
+Next we can assess the fit using the Analysis of Variance (ANOVA).
+The ANOVA results below match those in the top half of Display 8.8 (page 219).
+
+<<>>=
+anova(lm1)
+@
+
+We can then compare this with a model with separate means for each group.
+
+<<>>=
+lm2 = lm(logtime ~ as.factor(Voltage), data=case0802)
+summary(lm2)
+@
+
+This model has a $F$-statistic of \Sexpr{round(summary(lm2)$fstatistic["value"], 2)} with a $p$-value $< 0.0001$, as shown in the bottom half of Display 8.8 (page 218).
+
+Another way of viewing this model is with the ANOVA.  
+<<>>=
+anova(lm2)
+@
+Note that the values for the {\tt Residuals} can also be found in the bottom half of Display 8.8 (page 219). 
+
+The $F$-statistic and its associated $p$-value for the lack-of-fit discussion on page 220 can be calculated by comparing the two models with an ANOVA.
+<<>>=
+anova(lm1, lm2)
+@
+
+\subsection{Assessment of Assumptions}
+
+First we will have to assume independence for the information given.  As seen in the above density plot the observations for {\tt Time} was not normally distributed, once we preformed a log transformation the distribution of the values became more approximately normal.
+
+Next we can check for linearity, the following figure is akin to the right side graph in Display 8.14 (page 226).
+
+<<fig.height=4, fig.width=6>>=
+plot(lm1, which=2)
+@
+
+
+Lastly we can assess the assumption of equal variance.
+
+<<fig.height=4, fig.width=6>>=
+plot(lm1, which=1)
+@
+
+
+\subsection{Other transformations}
+
+The \emph{Sleuth} also discusses the use of a square root transformation for the breakdown time.  The following figure is a scatterplot of the square root of breakdown time versus voltage, akin to the left figure in Display 8.7 (page 215).
+
+<<fig.height=4, fig.width=6>>=
+case0802$sqrttime = with(case0802, sqrt(Time))
+xyplot(sqrttime ~ Voltage, type=c("p", "r"), data=case0802)
+@
+
+We can assess this transformation by observing the residual plot based on the simple linear regression fit, akin to the right figure in Display 8.7 (page 215).
+<<fig.height=4, fig.width=6>>=
+lm3 = lm(sqrttime ~ Voltage, data=case0802)
+summary(lm3)
+plot(lm3, which = 1)
+@
+
+\end{document}
+
