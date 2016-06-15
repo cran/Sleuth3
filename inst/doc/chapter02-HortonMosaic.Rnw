@@ -88,7 +88,7 @@ Chapter 2}
 
 \author{
 Linda Loi \and Ruobing Zhang\and Kate Aloisio \and Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu}
-} 
+}
 
 \date{\today}
 
@@ -130,7 +130,7 @@ print.pval = function(pval) {
 <<setup2,echo=FALSE,message=FALSE>>=
 require(Sleuth3)
 require(mosaic)
-trellis.par.set(theme=col.mosaic())  # get a better color scheme 
+trellis.par.set(theme=col.mosaic())  # get a better color scheme
 set.seed(123)
 # this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
 knit_hooks$set(inline = function(x) {
@@ -143,7 +143,7 @@ gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
 })
 showOriginal=FALSE
 showNew=TRUE
-@ 
+@
 
 \section{Introduction}
 
@@ -154,8 +154,8 @@ file as well as the associated \pkg{knitr} reproducible analysis source file can
 \url{http://www.math.smith.edu/~nhorton/sleuth3}.
 
 
-This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
-\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. A short summary of the R needed to teach introductory statistics can be found in the mosaic package vignette (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/MinimalR.pdf}). 
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. A short summary of the R needed to teach introductory statistics can be found in the mosaic package vignette (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/MinimalR.pdf}).
 
 To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
@@ -196,7 +196,7 @@ summary(case0201)
 fav = favstats(Depth ~ Year, data=case0201); fav
 @
 
-A total of \Sexpr{nrow(case0201)} subjects are included in the data: \Sexpr{nrow(subset(case0201, Year=="1976"))} are finches that were caught in 1976 and \Sexpr{nrow(subset(case0201, Year=="1978"))} are finches that were caught in 1978. 
+A total of \Sexpr{nrow(case0201)} subjects are included in the data: \Sexpr{nrow(subset(case0201, Year=="1976"))} are finches that were caught in 1976 and \Sexpr{nrow(subset(case0201, Year=="1978"))} are finches that were caught in 1978.
 The following figure replicates Display 2.1 on page 30.
 
 <<>>=
@@ -249,7 +249,7 @@ twopval = 2*onepval; twopval
 
 The one-sided $p$-value is approximately \Sexpr{round(onepval, 2)} and the two-sided $p$-value is also approximately \Sexpr{round(twopval, 2)}.
 
-We can get the results of ``Summary of Statistical Findings" (page 29) by using the following code: 
+We can get the results of ``Summary of Statistical Findings" (page 29) by using the following code:
 <<>>=
 t.test(Depth ~ Year, var.equal=TRUE, data=case0201)
 confint(lm(Depth ~ Year, data=case0201))

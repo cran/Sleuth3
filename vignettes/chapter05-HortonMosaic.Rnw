@@ -88,7 +88,7 @@ Chapter 5}
 
 \author{
 Linda Loi \and Kate Aloisio \and Ruobing Zhang \and Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu}
-} 
+}
 
 \date{\today}
 
@@ -117,7 +117,7 @@ opts_chunk$set(
   )
 @
 
-  
+
 <<pvalues, echo=FALSE, message=FALSE>>=
 print.pval = function(pval) {
   threshold = 0.0001
@@ -143,7 +143,7 @@ gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
 })
 showOriginal=FALSE
 showNew=TRUE
-@ 
+@
 
 \section{Introduction}
 
@@ -154,8 +154,8 @@ file as well as the associated \pkg{knitr} reproducible analysis source file can
 \url{http://www.math.smith.edu/~nhorton/sleuth3}.
 
 
-This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
-\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. A short summary of the R needed to teach introductory statistics can be found in the mosaic package vignette (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/MinimalR.pdf}). 
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. A short summary of the R needed to teach introductory statistics can be found in the mosaic package vignette (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/MinimalR.pdf}).
 
 To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
@@ -178,7 +178,7 @@ require(Sleuth3)
 
 We also set some options to improve legibility of graphs and output.
 <<eval=FALSE>>=
-trellis.par.set(theme=col.mosaic())  # get a better color scheme 
+trellis.par.set(theme=col.mosaic())  # get a better color scheme
 options(digits=3)
 @
 
@@ -189,7 +189,7 @@ Does restricting the diet of female mice lead to increased lifespan? This is the
 in case study 5.1 in the \emph{Sleuth}.
 
 
-\subsection{Summary statistics and graphical display} 
+\subsection{Summary statistics and graphical display}
 
 We begin by reading the data and summarizing the variables.
 
@@ -289,11 +289,11 @@ root mean squared error.
 
 \subsection{Residual analysis and diagnostics}
 
-The residuals versus fitted graph does not demonstrate dramatic lack of fit (though some of the 
+The residuals versus fitted graph does not demonstrate dramatic lack of fit (though some of the
 mice had very small residuals).  The following figure is akin to Display 5.14 (page 132).
 <<fig.height=8, fig.width=8>>=
 aov1 = aov(lm(Lifetime ~ Diet, data=case0501))
-plot(aov1, which=1) 
+plot(aov1, which=1)
 @
 
 The quantile plot of the residuals indicates that the normality assumption may be violated.
@@ -305,7 +305,7 @@ plot(aov1, which=3)
 
 
 \section{Spock Conspiracy Trial}
-Did Dr. Benjamin Spock have a fair trial?  More specifically, were women underrepresented on his jury pool?  This is the question considered in 
+Did Dr. Benjamin Spock have a fair trial?  More specifically, were women underrepresented on his jury pool?  This is the question considered in
 case study 5.2 in the \emph{Sleuth}.
 
 
@@ -332,7 +332,7 @@ densityplot(~ Percent, groups=Judge, auto.key=TRUE, data=case0502)
 
 First we fit the one way analysis of variance (ANOVA) model, with all of the groups. These results are summarized on page 118 and shown in Display 5.10 (page 127).
 <<>>=
-aov1 = anova(lm(Percent ~ Judge, data=case0502)); aov1 
+aov1 = anova(lm(Percent ~ Judge, data=case0502)); aov1
 @
 
 By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups.  Note that the overall test of the model is the same.
@@ -361,15 +361,15 @@ case0502$twoJudge[case0502$Judge!="Spock's"] = "notspock"
 tally(twoJudge ~ Judge, format="count", data=case0502)
 
 @
-Recall that the book calculates the extra sum of squares as (2,190.90 - 1864.45)/(44-39)) / (1864.45 / 39) = 1.37, with df 5 and 39.  P(F $\textgreater$ 1.366) = 0.26 (page 130).  Below are the calculations for the results found on page 128. 
+Recall that the book calculates the extra sum of squares as (2,190.90 - 1864.45)/(44-39)) / (1864.45 / 39) = 1.37, with df 5 and 39.  P(F $\textgreater$ 1.366) = 0.26 (page 130).  Below are the calculations for the results found on page 128.
 
 <<>>=
 numdf1 = aov1["Residuals", "Df"]; numdf1 # Within
 ss1 = aov1["Residuals", "Sum Sq"]; ss1 # Within
 aov2 = anova(lm(Percent ~ as.factor(twoJudge), data=case0502)); aov2
-df2 = aov2["Residuals", "Df"]; df2 # Spock and others 
-ss2 = aov2["Residuals", "Sum Sq"]; ss2 # Spock and others 
-Fstat = ((ss2 - ss1)/(df2 - numdf1)) / (ss1 / numdf1); Fstat 
+df2 = aov2["Residuals", "Df"]; df2 # Spock and others
+ss2 = aov2["Residuals", "Sum Sq"]; ss2 # Spock and others
+Fstat = ((ss2 - ss1)/(df2 - numdf1)) / (ss1 / numdf1); Fstat
 1-pf(Fstat, length(levels(case0502$Judge))-2, numdf1)
 @
 
@@ -378,7 +378,7 @@ We can also compare the two models using ANOVA (Display 5.12, page 130).
 anova(lm(Percent ~ as.factor(Judge), data=case0502), lm(Percent ~ as.factor(twoJudge), data=case0502))
 @
 
-There are some other ways to compare whether the other judges differ from Dr. Spock's judge in their female composition using contrasts. 
+There are some other ways to compare whether the other judges differ from Dr. Spock's judge in their female composition using contrasts.
 
 <<>>=
 # test all of the other judges vs. Spock's judge using a contrast page 118
