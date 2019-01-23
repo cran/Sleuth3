@@ -1,5 +1,5 @@
 %\VignetteEngine{knitr}
-%\VignetteIndexEntry{Chapter 1, Horton et al. using mosaic}
+%\VignetteIndexEntry{Chapter 11, Horton et al. using mosaic}
 %\VignettePackage{Sleuth3}
 \documentclass[11pt]{article}
 
