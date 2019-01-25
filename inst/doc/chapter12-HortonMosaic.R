@@ -14,7 +14,7 @@ opts_chunk$set(
   )
 require(Sleuth3)
 require(mosaic)
-require(MASS)
+require(MASS)  ## for stepAIC
 trellis.par.set(theme=col.mosaic())  # get a better color scheme 
 set.seed(123)
 # this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.

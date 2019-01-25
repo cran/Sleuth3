@@ -33,7 +33,7 @@
 \references{
   Data were gathered by William Gray of Colorado State University and
   reported on USA Today weather page:
-  \url{http://www.usatoday.com/weather/whurnum.htm}
+  \code{http://www.usatoday.com/weather/whurnum.htm}
 }
 \examples{
 str(ex1028)
