@@ -25,7 +25,7 @@
 \references{
   Jones, P.D., D. E. Parker, T. J. Osborn, and K. R. Briffa, (2011) Global 
   and Hemispheric Temperature Anomalies and and Marine Instrumental Records, 
-  CDIAC, \url{http://cdiac.ornl.gov/trends/temp/jonescru/jones.html}, August 4, 2011. 
+  CDIAC, http://cdiac.ornl.gov/trends/temp/jonescru/jones.html, August 4, 2011. 
 }
 \seealso{
   \code{\link{ex1519}}

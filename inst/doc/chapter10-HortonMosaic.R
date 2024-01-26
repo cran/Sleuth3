@@ -1,4 +1,4 @@
-## ----setup, include=FALSE, cache=FALSE-----------------------------------
+## ----setup, include=FALSE, cache=FALSE----------------------------------------
 require(knitr)
 opts_chunk$set(
   dev="pdf",
@@ -13,7 +13,7 @@ opts_chunk$set(
         comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
   )
 
-## ----pvalues, echo=FALSE, message=FALSE----------------------------------
+## ----pvalues, echo=FALSE, message=FALSE---------------------------------------
 print.pval = function(pval) {
   threshold = 0.0001
     return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
@@ -21,7 +21,7 @@ print.pval = function(pval) {
                        paste("p=", round(pval, 3), sep=""))))
 }
 
-## ----setup2,echo=FALSE,message=FALSE-------------------------------------
+## ----setup2,echo=FALSE,message=FALSE------------------------------------------
 require(Sleuth3)
 require(mosaic)
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
@@ -38,74 +38,74 @@ gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
 showOriginal=FALSE
 showNew=TRUE
 
-## ----install_mosaic,eval=FALSE-------------------------------------------
+## ----install_mosaic,eval=FALSE------------------------------------------------
 #  install.packages('mosaic')               # note the quotation marks
 
-## ----load_mosaic,eval=FALSE----------------------------------------------
+## ----load_mosaic,eval=FALSE---------------------------------------------------
 #  require(mosaic)
 
-## ----install_Sleuth3,eval=FALSE------------------------------------------
+## ----install_Sleuth3,eval=FALSE-----------------------------------------------
 #  install.packages('Sleuth3')               # note the quotation marks
 
-## ----load_Sleuth3,eval=FALSE---------------------------------------------
+## ----load_Sleuth3,eval=FALSE--------------------------------------------------
 #  require(Sleuth3)
 
-## ----eval=TRUE-----------------------------------------------------------
+## ----eval=TRUE----------------------------------------------------------------
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 summary(case1001)
 favstats(~ Distance, data=case1001)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 xyplot(Distance ~ Height, data=case1001)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 lm1 = lm(Distance ~ Height+I(Height^2)+I(Height^3), data=case1001); summary(lm1)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 lm2 = lm(Distance ~ Height+I(Height^2), data=case1001); summary(lm2)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 case1001$pred = predict(lm2)
 xyplot(pred+Distance ~ Height, auto.key=TRUE, data=case1001)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 predict(lm2, interval="confidence", data.frame(Height=c(0, 250)))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 355.1+c(-1, 1)*6.62*qt(.975, 4)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 predict(lm2, interval="predict", data.frame(Height=c(0, 250)))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 anova(lm2)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 case1002 = transform(case1002, Type = factor(Type, levels = c("non-echolocating bats","non-echolocating birds", "echolocating bats")))
 case1002$logmass = log(case1002$Mass); case1002$logenergy = log(case1002$Energy)
 summary(case1002)
 favstats(Mass ~ Type, data=case1002)
 favstats(Energy ~ Type, data=case1002)
 
-## ----fig.height=4, fig.width=4-------------------------------------------
+## ----fig.height=4, fig.width=4------------------------------------------------
 xyplot(Energy ~ Mass, group=Type, scales=list(y=list(log=TRUE), 
     x=list(log=TRUE)), auto.key=TRUE, data=case1002)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 lm1 = lm(logenergy ~ logmass+Type, data=case1002); summary(lm1)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 confint(lm1)
 exp(confint(lm1))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 summary(lm(logenergy ~ Type, data=case1002))
 summary(lm(logenergy ~ Type * logmass, data=case1002))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 pred = predict(lm1, se.fit=TRUE, newdata=data.frame(Type=c("non-echolocating birds", "non-echolocating birds"), logmass=c(log(100), log(400))))
 pred.fit = pred$fit[1]; pred.fit
 pred.se = pred$se.fit[1]; pred.se
@@ -119,15 +119,15 @@ pred3 = predict(lm1, se.fit=TRUE, newdata=data.frame(Type=c("echolocating bats",
 
 table10.9 = rbind(c("Intercept estimate", "Standard error"), round(cbind(pred2$fit, pred2$se.fit), 4), round(cbind(pred3$fit, pred3$se.fit), 4)); table10.9
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 lm2 = lm(logenergy ~ logmass, data=case1002)
 anova(lm2, lm1)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 lm3 = lm(logenergy ~ logmass*Type, data=case1002)
 anova(lm3, lm1)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 require(gmodels)
 estimable(lm1, c(0, 0, -1, 1))
 

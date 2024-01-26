@@ -10,7 +10,7 @@
   the percentage of organic matter in the food, after accounting for the effect 
   of species weight and to describe the association. 
 }
-\usage{ex0922}
+\usage{ex0921}
 \format{
   A data frame with 19 observations on the following 4 variables.
   \describe{

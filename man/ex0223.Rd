@@ -33,7 +33,7 @@
   Report to Congress: The Effect of Increased Speed Limits in the
   Post-NMSL Era, National Highway Traffic Safety Administration,
   February, 1998; available in the reports library at  
-  \url{http://www-fars.nhtsa.dot.gov/}.
+  \url{https://www-fars.nhtsa.dot.gov/}.
 }
 \examples{
 str(ex0223)

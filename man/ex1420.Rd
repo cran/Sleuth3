@@ -19,8 +19,7 @@
     \item{Sex}{a factor with levels \code{"F"} and \code{"M"}}
     \item{Age}{subject's age in years}
     \item{BMI}{body mass index in kg/squared meter}
-    \item{WtLoss24}{weight at the end of the 24 month study minus 
-      initial weight, in kg}   
+    \item{WtLoss24}{the amount of weight lost in 24 months on the diet, in kg}
   }
 }
 \source{

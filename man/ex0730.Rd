@@ -26,7 +26,7 @@
   Evaluation of Edison/Mitofsky Election System 2004 prepared by Edison Media
   Research and Mitofsky International for the National Election Pool (NEP), 
   January 15, 2005.
-  \url{http://abcnews.go.com/images/Politics/EvaluationofEdisonMitofskyElectionSystem.pdf}
+  \url{https://abcnews.go.com/images/Politics/EvaluationofEdisonMitofskyElectionSystem.pdf}
 }
 \seealso{
   \code{\link{ex0729}}

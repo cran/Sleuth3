@@ -1,4 +1,4 @@
-## ----setup, include=FALSE, cache=FALSE-----------------------------------
+## ----setup, include=FALSE, cache=FALSE----------------------------------------
 require(knitr)
 opts_chunk$set(
   dev="pdf",
@@ -13,7 +13,7 @@ opts_chunk$set(
         comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
   )
 
-## ----pvalues, echo=FALSE, message=FALSE----------------------------------
+## ----pvalues, echo=FALSE, message=FALSE---------------------------------------
 print.pval = function(pval) {
   threshold = 0.0001
     return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
@@ -21,7 +21,7 @@ print.pval = function(pval) {
                        paste("p=", round(pval, 3), sep=""))))
 }
 
-## ----setup2,echo=FALSE,message=FALSE-------------------------------------
+## ----setup2,echo=FALSE,message=FALSE------------------------------------------
 require(Sleuth3)
 require(mosaic)
 trellis.par.set(theme=col.mosaic())  # get a better color scheme 
@@ -38,77 +38,77 @@ gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
 showOriginal=FALSE
 showNew=TRUE
 
-## ----install_mosaic,eval=FALSE-------------------------------------------
+## ----install_mosaic,eval=FALSE------------------------------------------------
 #  install.packages('mosaic')               # note the quotation marks
 
-## ----load_mosaic,eval=FALSE----------------------------------------------
+## ----load_mosaic,eval=FALSE---------------------------------------------------
 #  require(mosaic)
 
-## ----install_Sleuth3,eval=FALSE------------------------------------------
+## ----install_Sleuth3,eval=FALSE-----------------------------------------------
 #  install.packages('Sleuth3')               # note the quotation marks
 
-## ----load_Sleuth3,eval=FALSE---------------------------------------------
+## ----load_Sleuth3,eval=FALSE--------------------------------------------------
 #  require(Sleuth3)
 
-## ----eval=TRUE-----------------------------------------------------------
+## ----eval=TRUE----------------------------------------------------------------
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3, show.signif.stars=FALSE)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 summary(case0301)
 favstats(Rainfall ~ Treatment, data=case0301)
 
-## ----fig.height=8, fig.width=8-------------------------------------------
+## ----fig.height=8, fig.width=8------------------------------------------------
 bwplot(Rainfall ~ Treatment, data=case0301)
 
-## ----fig.height=8, fig.width=8-------------------------------------------
+## ----fig.height=8, fig.width=8------------------------------------------------
 densityplot(~Rainfall, groups=Treatment, auto.key=TRUE, data=case0301)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 case0301 = transform(case0301, lograin=log(Rainfall))
 favstats(lograin ~ Treatment, data=case0301)
 
-## ----fig.height=8, fig.width=8-------------------------------------------
+## ----fig.height=8, fig.width=8------------------------------------------------
 bwplot(lograin ~ Treatment, data=case0301)
 
-## ----fig.height=8, fig.width=8-------------------------------------------
+## ----fig.height=8, fig.width=8------------------------------------------------
 densityplot(~lograin, groups=Treatment, auto.key=TRUE, data=case0301)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 t.test(Rainfall ~ Treatment, var.equal=FALSE, data=case0301)
 t.test(Rainfall ~ Treatment, var.equal=TRUE, data=case0301)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 summary(lm(lograin ~ Treatment, data=case0301))
 ttestlog = t.test(lograin ~ Treatment, data=case0301); ttestlog
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 obslogdiff = -diff(mean(lograin ~ Treatment, data=case0301)); obslogdiff
 multiplier = exp(obslogdiff); multiplier
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 ttestlog$conf.int
 exp(ttestlog$conf.int)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 summary(case0302)
 favstats(Dioxin ~ Veteran, data=case0302)
 
-## ----fig.height=8, fig.width=8-------------------------------------------
+## ----fig.height=8, fig.width=8------------------------------------------------
 bwplot(Veteran ~ Dioxin, data=case0302)
 
-## ----fig.height=8, fig.width=8-------------------------------------------
+## ----fig.height=8, fig.width=8------------------------------------------------
 densityplot(~Dioxin, groups=Veteran, auto.key=TRUE, data=case0302)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 t.test(Dioxin ~ Veteran, var.equal=TRUE, alternative="less", data=case0302)
 t.test(Dioxin ~ Veteran, var.equal=TRUE, data=case0302)$conf.int
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 case0302.2 = case0302[-c(646), ]
 t.test(Dioxin ~ Veteran, alternative="less", data=case0302.2)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 dim(case0302)
 case0302.3 = case0302[-c(645, 646), ]
 dim(case0302.3)

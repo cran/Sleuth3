@@ -49,7 +49,7 @@
 }
 \references{
   U.S. Bureau of Labor Statistics and U.S. Bureau of the Census: Current 
-  Population Survey, March 2011 \url{http://www.bls.gov/cps}
+  Population Survey, March 2011 \url{https://www.bls.gov/cps}
 }
 \examples{
 str(ex1030)

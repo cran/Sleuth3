@@ -26,7 +26,7 @@
 }
 \references{
   National Longitudinal Survey of Youth, U.S. Bureau of Labor Statistics,
-  \url{http://www.bls.gov/nls/home.htm} (May 8, 2008).
+  \url{https://www.bls.gov/nls/home.htm} (May 8, 2008).
 }
 \seealso{
   \code{\link{ex0330}}, \code{\link{ex0331}}, \code{\link{ex0524}},

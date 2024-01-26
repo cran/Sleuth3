@@ -42,7 +42,7 @@
 }
 \references{
   Arizona-Sonora Desert Museum, ``Wildflower Flourishes and Flops: a 50--Year 
-  History,'' \url{www.desertmuseum.org/programs/flw_wildflwrbloom.html} 
+  History,'' \url{https://www.desertmuseum.org/programs/flw_wildflwrbloom.php} 
   (July 25, 2011).
 }
 \examples{

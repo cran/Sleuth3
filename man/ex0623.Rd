@@ -17,8 +17,7 @@
     \item{Subject}{subject identification number}
     \item{Group}{a factor with levels \code{"Low-Carbohydrate"}, 
       \code{"Low-Fat"}, and \code{"Meditrranean"}}
-    \item{WtLoss24}{weight at the end of the 24 month study minus 
-      initial weight, in kg} 
+    \item{WtLoss24}{the amount of weight lost in 24 months on the diet, in kg} 
   }
 }
 \source{

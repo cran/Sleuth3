@@ -1,4 +1,4 @@
-%\VignetteEngine{knitr}
+%\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{Chapter 12, Horton et al. using mosaic}
 %\VignettePackage{Sleuth3}
 \documentclass[11pt]{article}
@@ -44,13 +44,13 @@
    \begin{lrbox}{\fmbox}
      \begin{minipage}{#1}
      \vspace*{.02\tempfmlength}
-		 \hfill
-	   \begin{minipage}{.95 \tempfmlength}}
-		 {\end{minipage}\hfill
-		 \vspace*{.015\tempfmlength}
-		 \end{minipage}\end{lrbox}\fbox{\usebox{\fmbox}}
-	 \medskip
-	 }
+                 \hfill
+           \begin{minipage}{.95 \tempfmlength}}
+                 {\end{minipage}\hfill
+                 \vspace*{.015\tempfmlength}
+                 \end{minipage}\end{lrbox}\fbox{\usebox{\fmbox}}
+         \medskip
+         }
 
 
 \newenvironment{boxedText}[1][.98\textwidth]%
@@ -70,14 +70,14 @@
   \begin{center}
 \begin{fmpage}{.98\textwidth}
   \begin{center}
-	\sf \large Box~\expandafter\thetable. #2
+        \sf \large Box~\expandafter\thetable. #2
 \end{center}
 \medskip
 }%
 {%
 \end{fmpage}
 \end{center}
-\end{table}		% need to do something about exercises that follow boxedTable
+\end{table}             % need to do something about exercises that follow boxedTable
 }
 
 
@@ -106,13 +106,13 @@ opts_chunk$set(
   dev="pdf",
   fig.path="figures/",
   fig.height=3,
-	fig.width=4,
-	out.width=".47\\textwidth",
-	fig.keep="high",
-	fig.show="hold",
-	fig.align="center",
-	prompt=TRUE,  # show the prompts; but perhaps we should not do this 
-	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
+        fig.width=4,
+        out.width=".47\\textwidth",
+        fig.keep="high",
+        fig.show="hold",
+        fig.align="center",
+        prompt=TRUE,  # show the prompts; but perhaps we should not do this 
+        comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
   )
 require(Sleuth3)
 require(mosaic)

@@ -27,7 +27,7 @@
     Course in Methods of Data Analysis (3rd ed)}, Cengage Learning.
 }
 \references{
-   Wikipedia: \url{http://en.wikipedia.org/wiki/Planet}
+   Wikipedia: \url{https://en.wikipedia.org/wiki/Planet}
    August 10, 2011
 }
 \seealso{

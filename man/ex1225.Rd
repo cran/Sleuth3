@@ -37,7 +37,7 @@
 }
 \references{
   U.S. Bureau of Labor Statistics and U.S. Bureau of the Census: Current 
-  Population Survey, March 2011 \url{http://www.bls.gov/cps/data.htm}  
+  Population Survey, March 2011 \url{https://www.bls.gov/cps/data.htm}  
   July 25, 2011.
 }
 \examples{

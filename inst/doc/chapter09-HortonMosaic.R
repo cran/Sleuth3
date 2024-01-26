@@ -1,4 +1,4 @@
-## ----setup, include=FALSE, cache=FALSE-----------------------------------
+## ----setup, include=FALSE, cache=FALSE----------------------------------------
 require(knitr)
 opts_chunk$set(
   dev="pdf",
@@ -13,7 +13,7 @@ opts_chunk$set(
         comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
   )
 
-## ----pvalues, echo=FALSE, message=FALSE----------------------------------
+## ----pvalues, echo=FALSE, message=FALSE---------------------------------------
 print.pval = function(pval) {
   threshold = 0.0001
     return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
@@ -21,7 +21,7 @@ print.pval = function(pval) {
                        paste("p=", round(pval, 3), sep=""))))
 }
 
-## ----setup2,echo=FALSE,message=FALSE-------------------------------------
+## ----setup2,echo=FALSE,message=FALSE------------------------------------------
 require(Sleuth3)
 require(mosaic)
 trellis.par.set(theme=col.mosaic())  # get a better color scheme 
@@ -38,56 +38,56 @@ gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
 showOriginal=FALSE
 showNew=TRUE
 
-## ----install_mosaic,eval=FALSE-------------------------------------------
+## ----install_mosaic,eval=FALSE------------------------------------------------
 #  install.packages('mosaic')               # note the quotation marks
 
-## ----load_mosaic,eval=FALSE----------------------------------------------
+## ----load_mosaic,eval=FALSE---------------------------------------------------
 #  require(mosaic)
 
-## ----install_Sleuth3,eval=FALSE------------------------------------------
+## ----install_Sleuth3,eval=FALSE-----------------------------------------------
 #  install.packages('Sleuth3')               # note the quotation marks
 
-## ----load_Sleuth3,eval=FALSE---------------------------------------------
+## ----load_Sleuth3,eval=FALSE--------------------------------------------------
 #  require(Sleuth3)
 
-## ----eval=TRUE-----------------------------------------------------------
+## ----eval=TRUE----------------------------------------------------------------
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 head(case0901)
 case0901 = transform(case0901, Time = factor(ifelse(case0901$Time > 1, "Early", "Late")))
 summary(case0901)
 favstats(Flowers ~ Intensity | Time, data=case0901)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 xyplot(Flowers ~ Intensity, groups=Time, type=c("p", "r", "smooth"), 
        data=case0901, auto.key=TRUE, 
        xlab="light intensity (mu mol/m^2/sec)", ylab="average number of flowers")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 lm1 = lm(Flowers ~ Intensity+Time, data=case0901)
 summary(lm1)
 confint(lm1, level=.95) # 95% confidence intervals  
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 lm2 = lm(Flowers ~ Intensity*Time, data=case0901)
 summary(lm2)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 case0902 = transform(case0902, logbrain = log(Brain))
 case0902 = transform(case0902, logbody = log(Body))
 case0902 = transform(case0902, loggest = log(Gestation))
 case0902 = transform(case0902, loglitter = log(Litter))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 summary(case0902)
 
-## ----fig.height=8, fig.width=8-------------------------------------------
+## ----fig.height=8, fig.width=8------------------------------------------------
 smallds = subset(case0902, select=c("Brain", "Body", "Gestation", "Litter"))
 pairs(smallds)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
   panel.hist = function(x, ...)
   {
     usr = par("usr"); on.exit(par(usr))
@@ -107,29 +107,29 @@ panel.lm = function(x, y, col=par("col"), bg=NA,
     abline(lm(y[ok] ~ x[ok]))
 }
 
-## ----fig.height=9, fig.width=9-------------------------------------------
+## ----fig.height=9, fig.width=9------------------------------------------------
   pairs(~ Brain+Body+Gestation+Litter, 
         lower.panel=panel.smooth, diag.panel=panel.hist, 
         upper.panel=panel.lm, data=case0902)
 
-## ----fig.height=9, fig.width=9-------------------------------------------
+## ----fig.height=9, fig.width=9------------------------------------------------
   pairs(~ logbrain+logbody+loggest+loglitter, 
               lower.panel=panel.smooth, diag.panel=panel.hist, 
               upper.panel=panel.lm, data=case0902)
 
-## ----fig.height=8, fig.width=8-------------------------------------------
+## ----fig.height=8, fig.width=8------------------------------------------------
   xyplot(logbrain ~ jitter(loglitter), data=case0902)
 
-## ----fig.height=8, fig.width=8-------------------------------------------
+## ----fig.height=8, fig.width=8------------------------------------------------
   xyplot(Brain ~ jitter(Litter), scales=list(y=list(log=TRUE),
                                              x=list(log=TRUE)), data=case0902)
 
-## ----fig.height=8, fig.width=8-------------------------------------------
+## ----fig.height=8, fig.width=8------------------------------------------------
 case0902$weightcut = cut(case0902$Body, breaks=c(0, 2.1, 9.1, 100, 4200), labels=c("Body Weight: 0kg to 2.1kg","Body Weight: 2.1kg to 9.1kg", "Body Weight: 9.1kg to 100kg", "Body Weight: 100 to 4,200"))
 xyplot(Brain ~ jitter(Litter) | weightcut, 
        scales=list(y=list(log=TRUE), x=list(log=TRUE)), type=c("p", "r"), data=case0902)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 lm1 = lm(logbrain ~ logbody+loggest+loglitter, data=case0902)
 summary(lm1)
 

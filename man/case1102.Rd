@@ -6,7 +6,7 @@
   The human brain is protected from bacteria and toxins, which course
   through the blood--stream, by a single layer of cells called the
   blood--brain barrier.  These data come from an experiment (on rats,
-  which process a similar barrier) to study a method of disrupting the
+  which possess a similar barrier) to study a method of disrupting the
   barrier by infusing a solution of concentrated sugars.
 }
 \usage{case1102}

@@ -1,4 +1,4 @@
-## ----setup, include=FALSE, cache=FALSE-----------------------------------
+## ----setup, include=FALSE, cache=FALSE----------------------------------------
 require(knitr)
 opts_chunk$set(
   dev="pdf",
@@ -13,7 +13,7 @@ opts_chunk$set(
         comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
   )
 
-## ----pvalues, echo=FALSE, message=FALSE----------------------------------
+## ----pvalues, echo=FALSE, message=FALSE---------------------------------------
 print.pval = function(pval) {
   threshold = 0.0001
     return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
@@ -21,7 +21,7 @@ print.pval = function(pval) {
                        paste("p=", round(pval, 3), sep=""))))
 }
 
-## ----setup2,echo=FALSE,message=FALSE-------------------------------------
+## ----setup2,echo=FALSE,message=FALSE------------------------------------------
 require(mosaic)
 require(Sleuth3)
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
@@ -38,43 +38,43 @@ gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
 showOriginal=FALSE
 showNew=TRUE
 
-## ----install_mosaic,eval=FALSE-------------------------------------------
+## ----install_mosaic,eval=FALSE------------------------------------------------
 #  install.packages('mosaic')               # note the quotation marks
 
-## ----load_mosaic,eval=FALSE----------------------------------------------
+## ----load_mosaic,eval=FALSE---------------------------------------------------
 #  require(mosaic)
 
-## ----install_Sleuth3,eval=FALSE------------------------------------------
+## ----install_Sleuth3,eval=FALSE-----------------------------------------------
 #  install.packages('Sleuth3')               # note the quotation marks
 
-## ----load_Sleuth3,eval=FALSE---------------------------------------------
+## ----load_Sleuth3,eval=FALSE--------------------------------------------------
 #  require(Sleuth3)
 
-## ----eval=TRUE-----------------------------------------------------------
+## ----eval=TRUE----------------------------------------------------------------
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 summary(case0101)
 
-## ----eval=TRUE-----------------------------------------------------------
+## ----eval=TRUE----------------------------------------------------------------
 favstats(Score ~ Treatment, data=case0101)
 histogram(~ Score | Treatment, data=case0101)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 with(subset(case0101, Treatment=="Extrinsic"), stem(Score, scale=5))
 with(subset(case0101, Treatment=="Intrinsic"), stem(Score, scale=5))
 
-## ----eval=FALSE----------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  maggregate(Score ~ Treatment, data=case0101, FUN=stem)
 
-## ----eval=TRUE-----------------------------------------------------------
+## ----eval=TRUE----------------------------------------------------------------
 t.test(Score ~ Treatment, alternative="two.sided", data=case0101)
 
-## ----eval=TRUE-----------------------------------------------------------
+## ----eval=TRUE----------------------------------------------------------------
 summary(lm(Score ~ Treatment, data=case0101))
 
-## ----eval=TRUE-----------------------------------------------------------
+## ----eval=TRUE----------------------------------------------------------------
 diffmeans = diff(mean(Score ~ Treatment, data=case0101))
 diffmeans     # observed difference
 numsim = 1000     # set to a sufficient number
@@ -83,38 +83,38 @@ confint(nulldist)
 # Display 1.8 Sleuth
 histogram(~ Intrinsic, nint=50, data=nulldist, v=c(-4.14,4.14))
 
-## ----eval=TRUE-----------------------------------------------------------
+## ----eval=TRUE----------------------------------------------------------------
 summary(case0102) # Display 1.3 Sleuth p4
 
-## ----eval=TRUE-----------------------------------------------------------
+## ----eval=TRUE----------------------------------------------------------------
 favstats(Salary ~ Sex, data=case0102)
 bwplot(Salary ~ Sex, data=case0102)
 densityplot(~ Salary, groups=Sex, auto.key=TRUE, data=case0102)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 histogram(rnorm(1000))  # Normal
 histogram(rexp(1000))   # Long-tailed
 histogram(runif(1000))  # Short-tailed
 histogram(rchisq(1000, df=15)) # Skewed
 
-## ----eval=TRUE-----------------------------------------------------------
+## ----eval=TRUE----------------------------------------------------------------
 t.test(Salary ~ Sex, var.equal=TRUE, data=case0102)
 
-## ----obsdiff,eval=TRUE---------------------------------------------------
+## ----obsdiff,eval=TRUE--------------------------------------------------------
 obsdiff = diff(mean(Salary ~ Sex, data=case0102)); obsdiff
 
-## ----permutetest---------------------------------------------------------
+## ----permutetest--------------------------------------------------------------
 numsim = 1000
 res = do(numsim) * diff(mean(Salary~shuffle(Sex), data=case0102))
 densityplot(~ Male, data=res)
 confint(res)
 
-## ----eval=FALSE----------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  larger = sum(with(res, abs(Male) >= abs(obsdiff)))
 #  larger
 #  pval = larger/numsim
 #  pval
 
-## ----eval=TRUE-----------------------------------------------------------
+## ----eval=TRUE----------------------------------------------------------------
 t.test(Salary ~ Sex, alternative="less", data=case0102)
 

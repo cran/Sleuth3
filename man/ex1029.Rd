@@ -31,11 +31,7 @@
 \references{
   Bierens, H.J. and Ginther, D.K. (2001).  Integrated Conditional Moment
   Testing of Quantile Regression Models, \emph{Empirical Economics}
-  \bold{26}(1): 307--324; see
-  
-  \code{http://econ.la.psu.edu/~hbierens/QUANTILE.PDF}
-  
-  \code{http://econ.la.psu.edu/~hbierens/MEDIAN.HTM}
+  \bold{26}(1): 307--324, \doi{10.1007/s001810000059}.
 }
 \examples{
 str(ex1029)

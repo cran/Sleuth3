@@ -21,7 +21,7 @@
     Course in Methods of Data Analysis (3rd ed)}, Cengage Learning.
 }
 \references{
-  College Board: \url{http://www.collegeboard.com/student/} (11 July 2011)
+  College Board: http://www.collegeboard.com/student/ (11 July 2011)
 }
 \examples{
 str(ex0332)
